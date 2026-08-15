@@ -1,22 +1,46 @@
 {
   "manifest_version": 3,
   "name": "Arc-Adjacent Pinned Tabs",
-  "version": "1.0",
-  "description": "Opens a new tab when all unpinned tabs are closed, somewhat mimicking Arc Browser.",
+  "version": "1.1",
+  "description": "Mimics Arc Browser's pinned tabs: memorizes core URLs, resets via shortcut (Cmd+Shift+R) or after 3h of inactivity, and prevents accidental closures.",
   "browser_specific_settings": {
     "gecko": {
       "id": "b@krml.me",
       "data_collection_permissions": {
-        "required": ["none"]
+        "required": [
+          "none"
+        ]
       }
     }
   },
   "permissions": [
-    "tabs"
+    "tabs",
+    "menus",
+    "sessions",
+    "alarms"
   ],
   "background": {
     "scripts": [
       "background.js"
     ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
+  "commands": {
+    "reset-pinned-tab": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+R",
+        "mac": "Command+Shift+R"
+      },
+      "description": "Reset the active pinned tab to its core page"
+    }
   }
 }
